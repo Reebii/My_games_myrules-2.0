@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do you love me?</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .eyes-container {
+            display: flex;
+            gap: 80px;
+            margin-bottom: 20px;
+        }
+
+        .eye {
+            width: 100px;
+            height: 100px;
+            background: white;
+            border-radius: 50%;
+            border: 5px solid black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .pupil {
+            width: 40px;
+            height: 40px;
+            background: black;
+            border-radius: 50%;
+            position: absolute;
+            transition: all 0.05s;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        #yesButton, #noButton {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        #yesButton {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        #noButton {
+            background-color: #f44336;
+            color: white;
+        }
+
+        #message {
+            margin-top: 20px;
+            font-size: 24px;
+            color: green;
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Do you love me?</h1>
+
+    <div class="eyes-container">
+        <div class="eye">
+            <div class="pupil"></div>
+        </div>
+        <div class="eye">
+            <div class="pupil"></div>
+        </div>
+    </div>
+
+    <div class="buttons">
+        <button id="yesButton">Yes</button>
+        <button id="noButton">No</button>
+    </div>
+
+    <div id="message">Yes, I forgive you and I love you!</div>
+
+    <script>
+        const pupils = document.querySelectorAll('.pupil');
+
+        // Make eyes follow the cursor
+        document.addEventListener('mousemove', (e) => {
+            pupils.forEach(pupil => {
+                const eye = pupil.parentElement;
+                const eyeRect = eye.getBoundingClientRect();
+                const eyeCenterX = eyeRect.left + eyeRect.width / 2;
+                const eyeCenterY = eyeRect.top + eyeRect.height / 2;
+
+                const angle = Math.atan2(e.pageY - eyeCenterY, e.pageX - eyeCenterX);
+                const distance = Math.min(eyeRect.width / 4, eyeRect.height / 4); // Limit movement within the eye
+
+                const pupilX = Math.cos(angle) * distance;
+                const pupilY = Math.sin(angle) * distance;
+
+                pupil.style.transform = `translate(${pupilX}px, ${pupilY}px)`;
+            });
+        });
+
+        // Yes button click event
+        const yesButton = document.getElementById('yesButton');
+        const message = document.getElementById('message');
+
+        yesButton.addEventListener('click', () => {
+            message.style.display = 'block';
+        });
+
+        // No button moves around
+        const noButton = document.getElementById('noButton');
+        noButton.addEventListener('mouseenter', () => {
+            const x = Math.random() * (window.innerWidth - noButton.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noButton.offsetHeight);
+            noButton.style.position = 'absolute';
+            noButton.style.left = `${x}px`;
+            noButton.style.top = `${y}px`;
+        });
+    </script>
+
+</body>
+</html>
+
